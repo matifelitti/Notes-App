@@ -6,9 +6,8 @@ A simple and responsive web-based notes application built using HTML, CSS, and J
 
 ## 📌 Features
 
-> > > > > > > d69877d (new enhacementsfeatures: dark-mode, pin notes, local storage)
-> > > > > > > ✅ **Create Notes**  
-> > > > > > > Type your note in the input field and click the "Create Note" button to add it to the list.
+✅ **Create Notes**  
+Type your note in the input field and click the "Create Note" button to add it to the list.
 
 ✏️ **Edit Notes**  
 Click the "Edit" button on a note to update its content in place.
