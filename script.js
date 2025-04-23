@@ -1,25 +1,84 @@
-document.getElementById("form").addEventListener("submit", function (event) {
-  event.preventDefault();
-
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form");
+  const textarea = document.getElementById("textarea");
   const cardContainer = document.getElementById("card-container");
-  const textarea = document.getElementById("textarea").value;
-  const cardId = Date.now();
-  const card = document.createElement("div");
-  card.classList.add("card");
-  card.id = cardId;
-  let date = new Date().toLocaleString();
-  card.innerHTML = `
-      <h6>${date}</h6>
-      <div>${textarea}</div>
-      <button onclick="deleteCard(${cardId})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-    </svg></button>
-    `;
-  cardContainer.appendChild(card);
-});
+  const themeToggle = document.getElementById("theme-toggle");
 
-function deleteCard(cardId) {
-  const card = document.getElementById(cardId);
-  card.remove();
-}
+  let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+  const saveNotes = () => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  };
+
+  const renderNotes = () => {
+    cardContainer.innerHTML = "";
+    const sortedNotes = [...notes].sort((a, b) => b.pinned - a.pinned);
+    sortedNotes.forEach((note) => createCard(note));
+  };
+
+  const createCard = (note) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.id = note.id;
+    card.innerHTML = `
+      <h6>${note.date}</h6>
+      <textarea class="card-textarea">${note.text}</textarea>
+      <div class="card-buttons">
+        <button onclick="deleteCard(${note.id})">Delete</button>
+        <button onclick="pinCard(${note.id})">${
+      note.pinned ? "Unpin" : "Pin"
+    }</button>
+      </div>
+    `;
+
+    const textArea = card.querySelector(".card-textarea");
+    textArea.addEventListener("input", () => {
+      const updatedNote = notes.find((n) => n.id === note.id);
+      updatedNote.text = textArea.value;
+      saveNotes();
+    });
+
+    cardContainer.appendChild(card);
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const newNote = {
+      id: Date.now(),
+      text: textarea.value,
+      date: new Date().toLocaleString(),
+      pinned: false,
+    };
+    notes.push(newNote);
+    saveNotes();
+    renderNotes();
+    textarea.value = "";
+  });
+
+  window.deleteCard = (id) => {
+    notes = notes.filter((note) => note.id !== id);
+    saveNotes();
+    renderNotes();
+  };
+
+  window.pinCard = (id) => {
+    const note = notes.find((n) => n.id === id);
+    note.pinned = !note.pinned;
+    saveNotes();
+    renderNotes();
+  };
+
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem(
+      "theme",
+      document.body.classList.contains("dark-mode") ? "dark" : "light"
+    );
+  });
+
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+
+  renderNotes();
+});

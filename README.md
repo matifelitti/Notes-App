@@ -1,4 +1,3 @@
-
 # 📝 Notes-App
 
 A simple and responsive web-based notes application built using HTML, CSS, and JavaScript. This app allows users to create, view, edit, pin, and delete notes — perfect for jotting down quick ideas, to-dos, or reminders.
@@ -7,8 +6,9 @@ A simple and responsive web-based notes application built using HTML, CSS, and J
 
 ## 📌 Features
 
-✅ **Create Notes**  
-Type your note in the input field and click the "Create Note" button to add it to the list.
+> > > > > > > d69877d (new enhacementsfeatures: dark-mode, pin notes, local storage)
+> > > > > > > ✅ **Create Notes**  
+> > > > > > > Type your note in the input field and click the "Create Note" button to add it to the list.
 
 ✏️ **Edit Notes**  
 Click the "Edit" button on a note to update its content in place.
