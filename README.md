@@ -41,3 +41,7 @@ To use the Notes-App:
    ```bash
    git clone https://github.com/matifelitti/notes-app.git
    ```
+
+2. Open `index.html` in your browser.
+
+> ⚠️ No frameworks or build tools required.
