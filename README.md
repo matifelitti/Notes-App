@@ -39,7 +39,7 @@ To use the Notes-App:
 1. Clone or download this repository:
 
    ```bash
-   git clone https://github.com/matifelitti/notes-app.git
+   git clone https://github.com/matifelitti/Notes-App.git
    ```
 
 2. Open `index.html` in your browser.
